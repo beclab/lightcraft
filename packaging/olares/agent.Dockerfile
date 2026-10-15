@@ -25,10 +25,11 @@ RUN npm install -g --omit=dev "supergateway@${SUPERGATEWAY_VERSION}" \
 COPY --from=builder /usr/local/bin/lightcraft-cli /usr/local/bin/lightcraft-cli
 COPY LICENSE-MIT LICENSE-APACHE NOTICE assets/ATTRIBUTION.md /usr/share/doc/lightcraft/
 # No --library: catalog.lock admits one process per library, and --stateful starts one per session.
+# --compact: ~370 per-command tools stay reachable through command_run.
 ENV HOME=/tmp \
     LIGHTCRAFT_GPU=0 \
     MCP_PORT=8090
 USER 1000:1000
 WORKDIR /data/files
 EXPOSE 8090
-CMD ["sh", "-c", "exec supergateway --stdio \"lightcraft-cli mcp\" --outputTransport streamableHttp --stateful --sessionTimeout 1800000 --port $MCP_PORT --healthEndpoint /healthz"]
+CMD ["sh", "-c", "exec supergateway --stdio \"lightcraft-cli mcp --compact\" --outputTransport streamableHttp --stateful --sessionTimeout 1800000 --port $MCP_PORT --healthEndpoint /healthz"]
