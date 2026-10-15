@@ -1,0 +1,16 @@
+.git
+.github
+**/target
+/target-*
+dist
+corpus
+log
+plan
+craft-fonts
+result
+result-*
+**/*.safetensors
+**/.DS_Store
+**/.env
+**/.env.*
+*.log
